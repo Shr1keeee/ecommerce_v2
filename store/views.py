@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import *
 
-# Create your views here.
+from django.http.response import JsonResponse
+
+def home(request):
+    return render(request, 'store/index.html')
+
