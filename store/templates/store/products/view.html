@@ -1,0 +1,70 @@
+{% extends 'store/layouts/main.html' %}
+
+{% block content %}
+
+<div class="py-2 bg-dark">
+    <div class="container">
+        <a class="text-white" href="{% url 'home' %}"> Home /</a>
+        <a class="text-white" href="{% url 'collections' %}"> Collections /</a>
+        <a class="text-white" href="{% url 'collectionsview' products.category.slug %}"> {{ products.category.name }} /</a>
+        <a class="text-white" href="{% url 'productview' products.category.slug  products.slug%}"> {{ products.name }} /</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow product_data">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            {% if products.tag %}
+                            <label style="font-size: 16px;" class="float-start badge bg-info text-dark">{{ products.tag }}</label>
+                            {% endif %}
+                            {% if products.trending %}
+                            <label style="font-size: 16px;"
+                                class="float-end badge bg-warning text-dark trending_teg">Хит</label>
+                            {% endif %}
+                            <img src="{{ products.product_image.url }}" class="w-100" alt="Product image">
+                        </div>
+                        <div class="col-md-8">
+                            <h2 class="md-0">
+                                {{ products.name }}
+                            </h2>
+                            <hr>
+                            <p class="mt-3">
+                                {{ products.small_description }}
+                            </p>
+                            <label class="me-3"><s>{{ products.original_price | stringformat:'d' }}</s> RUB</label>
+                            <label class="me-3 fw-bold">{{ products.selling_price | stringformat:'d' }} RUB</label>
+                            {% if products.quantity > 0 %}
+                            <label class="badge bg-success">В наличии {{ products.quantity }} шт</label>
+                            {% else %}
+                            <label class="badge bg-warning">Нет в наличии</label>
+                            {% endif %}
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <br />
+                                    {% if products.quantity > 0 %}
+                                    <button type="button" class="btn btn-dark me-3 float-start addToCartBtn">Добавить в
+                                        корзину</button>
+                                    {% endif %}
+                                    <button type="button" class="btn btn-dark me-3 float-start addToWishlist"><i class="fa fa-heart"></i></button>
+                                </div>
+                            </div>
+                            <hr>
+                            <p class="my-5 text">
+                                {{ products.description }}
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
