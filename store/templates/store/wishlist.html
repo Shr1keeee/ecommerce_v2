@@ -1,0 +1,54 @@
+{% extends 'store/layouts/main.html' %}
+
+{% block content %}
+
+<div class="py-2 bg-dark">
+    <div class="container">
+        <a class="text-white" href="{% url 'home' %}"> Главная /</a>
+        <a class="text-white" href="{% url 'wishlist' %}"> Избранное </a>
+    </div>
+</div>
+
+<div class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow wish_data">
+                    <div class="card-body">
+                        {% if wishlist %}
+                            <div class="row product_data">
+                                {% for item in wishlist %}
+                                    <div class="col-md-2 my-auto ">
+                                        <img src="{{ item.product.product_image.url }}" width="80px" height="80px" alt="Image here">
+                                    </div>
+                                    <div class="col-md-3 my-auto">
+                                        <h6>{{ item.product.name }}</h6>
+                                    </div>
+                                    <div class="col-md-2  my-auto">
+                                        <h6>{{ item.product.selling_price | stringformat:'d' }} rub</h6>
+                                    </div>
+                                    <div class="col-md-3 my-auto">
+                                        <input type="hidden" class="prod_id" value="{{ item.product_id }}">
+                                        {% csrf_token %}
+                                        <a href="{% url 'productview' item.product.category.slug item.product.slug %}" class="btn btn-primary">
+                                            <i class="fa fa-eye"></i> Просмотреть
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2 my-auto">
+                                        <button class="btn btn-danger delete-wishlist-item"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="text-center">
+                                <h4>Список избранного пуст</h4>    
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

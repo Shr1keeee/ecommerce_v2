@@ -48,6 +48,60 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product_qty = models.IntegerField(null=True, blank=True)
+    create_at = models.DateTimeField(auto_now_add=True)
 
     
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    create_at = models.DateField(auto_now_add=True)
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    fname = models.CharField(max_length=150, null=False, blank=False)
+    lname = models.CharField(max_length=150, null=False, blank=False)
+    email = models.CharField(max_length=150, null=False, blank=False)
+    phone = models.CharField(max_length=150, null=False, blank=False)
+    city = models.CharField(max_length=150, null=False, blank=False)
+    address = models.TextField(null=False)
+    total_price = models.FloatField(max_length=150, null=False)
+    payment_mode = models.CharField(max_length=150, null=False)
+    payment_id = models.CharField(max_length=150, null=False)
+    order_statuses = (
+        ('На доставке', 'На доставке'),
+        ('Завершен', 'Завершен'),
+    )
+    status = models.CharField(max_length=150, choices=order_statuses, default='На доставке')
+    message = models.TextField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.id
+    
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    price = models.FloatField(null=False)
+    quantity = models.IntegerField(null=False)
+
+    def __str__(self):
+        return self.order.id
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    city = models.CharField(max_length=150, null=False)
+    address = models.TextField(null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username
+
+
+
+
+

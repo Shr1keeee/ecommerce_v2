@@ -33,7 +33,7 @@ def loginpage(request):
                 return redirect("/")
             else:
                 messages.error(request, "Некорректное имя пользователя или пароль")
-                return redirect("login/")
+                return redirect("/login")
         return render(request, "store/auth/login.html")
             
 def logoutpage(request):

@@ -38,13 +38,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="">Повторите пароль:</label>
+                            <label for="">Подтвердите пароль:</label>
                             {{ form.password2 }}
                             {% if form.errors.password2 %}
                                 <label class="text-danger">{{ form.errors.password2 }}</label>
                             {% endif %}
                         </div>
-                        <button type="submit" class="btn float-end shadow btn-success px-4">Зарегистрироваться</button>
+                        <button type="submit" class="btn float-start shadow btn-success px-4">Зарегистрироваться</button>
                     </form>
                 </div>
             </div>

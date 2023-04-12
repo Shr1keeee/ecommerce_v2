@@ -1,0 +1,62 @@
+{% extends 'store/layouts/main.html' %}
+
+{% block content %}
+
+<div class="py-2 bg-dark">
+    <div class="container">
+        <a class="text-white" href="{% url 'home' %}"> Главная /</a>
+        <a class="text-white" href="{% url 'cart' %}"> Корзина </a>
+    </div>
+</div>
+
+<div class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow card_data">
+                    <div class="card-body">
+                        {% if cart %}
+                            <div class="row product_data">
+                                {% for item in cart %}
+                                    <div class="col-md-2 my-auto">
+                                        <img src="{{ item.product.product_image.url }}" alt="Product image">
+                                    </div>
+                                    <div class="col-md-3 my-auto">
+                                        <h6>{{ item.product.name }}</h6>
+                                    </div>
+                                    <div class="col-md-2 my-auto">
+                                        <h6>{{ item.product.selling_price }} rub</h6>
+                                    </div>
+                                    <div class="col-md-3 my-auto" style="width: 200px;">
+                                        <input type="hidden" class="prod_id" value="{{ item.product_id }}">
+                                        {% csrf_token %}
+                                        {% if item.product.quantity >= item.product_qty %}
+                                            <label class="mx-2" for="Quantity">Количество</label>
+                                            <div class="input-group mb-3">
+                                                <button class="input-group-text changeQuantity decrement-btn">-</button>
+                                                <input type="text" name="quantity" class="form-contol qty-input text-center col-md-3" value="{{ item.product_qty }}">
+                                                <button class="input-group-text changeQuantity increment-btn">+</button>
+                                            </div>
+                                        {% else %}
+                                            <h6>Нет в наличии</h6>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-3 my-auto">
+                                        <button class="btn btn-danger delete-cart-item"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                {% endfor %}
+                                <div class="float-end">
+                                    <a href="#" class="btn btn-outline-success float-end">К оформлению</a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <h4>Ваша корзина пуста</h4>    
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

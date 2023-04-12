@@ -7,7 +7,7 @@ class CustomUserForm(UserCreationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control my-2', 'placeholder': 'Введите имя пользователя'}))
     email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control my-2', 'placeholder': 'Введите email'}))
     password1 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control my-2', 'type': 'password', 'placeholder': 'Введите пароль'}))
-    password2 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control my-2', 'type': 'password', 'placeholder': 'Подтвердите пароь'}))
+    password2 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control my-2', 'type': 'password', 'placeholder': 'Подтвердите пароль'}))
 
     class Meta:
         model = User

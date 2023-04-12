@@ -4,8 +4,8 @@
 
 <div class="py-2 bg-dark">
     <div class="container">
-        <a class="text-white" href="{% url 'home' %}"> Home /</a>
-        <a class="text-white" href="{% url 'collections' %}"> Collections /</a>
+        <a class="text-white" href="{% url 'home' %}"> Главная /</a>
+        <a class="text-white" href="{% url 'collections' %}"> Коллекции /</a>
         <a class="text-white" href="{% url 'collectionsview' products.category.slug %}"> {{ products.category.name }} /</a>
         <a class="text-white" href="{% url 'productview' products.category.slug  products.slug%}"> {{ products.name }} /</a>
     </div>
@@ -44,7 +44,9 @@
                             {% endif %}
                             <div class="row">
                                 <div class="col-md-9">
-                                    <br />
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{{ products.id }}" class="prod_id">
+                                    <br>
                                     {% if products.quantity > 0 %}
                                     <button type="button" class="btn btn-dark me-3 float-start addToCartBtn">Добавить в
                                         корзину</button>
