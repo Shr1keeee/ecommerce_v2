@@ -19,13 +19,13 @@
                             <div class="row product_data">
                                 {% for item in cart %}
                                     <div class="col-md-2 my-auto">
-                                        <img src="{{ item.product.product_image.url }}" alt="Product image">
+                                        <img src="{{ item.product.product_image.url }}" style="width: 4rem; height: 4rem;" alt="Product image">
                                     </div>
                                     <div class="col-md-3 my-auto">
                                         <h6>{{ item.product.name }}</h6>
                                     </div>
                                     <div class="col-md-2 my-auto">
-                                        <h6>{{ item.product.selling_price }} rub</h6>
+                                        <h6>{{ item.product.selling_price | stringformat:'d' }} rub</h6>
                                     </div>
                                     <div class="col-md-3 my-auto" style="width: 200px;">
                                         <input type="hidden" class="prod_id" value="{{ item.product_id }}">
@@ -46,7 +46,7 @@
                                     </div>
                                 {% endfor %}
                                 <div class="float-end">
-                                    <a href="#" class="btn btn-outline-success float-end">К оформлению</a>
+                                    <a href="{% url 'checkout' %}" class="btn btn-outline-success float-end">К оформлению</a>
                                 </div>
                             </div>
                         {% else %}

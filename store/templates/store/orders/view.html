@@ -1,0 +1,71 @@
+{% extends 'store/layouts/main.html' %}
+
+{% block content %}
+
+<div class="py-2 bg-dark">
+    <div class="container">
+        <a class="text-white" href="{% url 'home' %}"> Главная /</a>
+        <a class="text-white" href="{% url 'myorders' %}"> Мои заказы </a>
+    </div>
+</div>
+
+<div class="container my-3">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h3 class="mb-0">Просмотр заказа
+                        <a href="{% url 'myorders' %}" class="btn btn-warning float-end text-white"><i class="fa fa-reply">Назад</i></a>
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h4>Детали доставки</h4>
+                            <hr>
+                            <label class="mt-2">Имя</label>
+                            <div class="border p-1">{{ order.fname }}</div>
+                            <label class="mt-2">Фамилия</label>
+                            <div class="border p-1">{{ order.lname }}</div>
+                            <label class="mt-2">Email</label>
+                            <div class="border p-1">{{ order.email }}</div>
+                            <label class="mt-2">Номер телефона</label>
+                            <div class="border p-1">{{ order.phone }}</div>
+                            <label class="mt-2">Город</label>
+                            <div class="border p-1">{{ order.city }}</div>
+                            <label class="mt-2">Адрес</label>
+                            <div class="border p-1">{{ order.address }}</div>
+                        </div>
+                        <div class="col-lg-6 text-center">
+                            <h4>Детали заказа</h4>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Товар</th>
+                                        <th>Количество</th>
+                                        <th>Цена</th>
+                                        <th>Изображение</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in orderitems %}
+                                        <tr>
+                                            <td>{{ item.product.name }}</td>
+                                            <td>{{ item.quantity }}</td>
+                                            <td>{{ item.price | stringformat:'d' }}</td>
+                                            <td>
+                                                <img style="width: 2rem; height: 2rem;" src="{{ item.product.product_image.url }}" alt="Product image">
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

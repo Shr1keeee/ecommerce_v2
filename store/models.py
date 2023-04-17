@@ -75,13 +75,14 @@ class Order(models.Model):
         ('На доставке', 'На доставке'),
         ('Завершен', 'Завершен'),
     )
+    tracking_no = models.CharField(max_length=150, null=True)
     status = models.CharField(max_length=150, choices=order_statuses, default='На доставке')
     message = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.id
+        return '{}-{}-{}'.format(self.id, self.user, self.tracking_no)
     
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -90,7 +91,7 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(null=False)
 
     def __str__(self):
-        return self.order.id
+        return '{}-{}'.format(self.order.id, self.order.user)
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
