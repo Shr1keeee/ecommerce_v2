@@ -34,3 +34,25 @@ def productview(request, cate_slug, prod_slug):
         messages.warning("Данная категория отсутствует")
         return redirect('collections')
     return render(request, "store/products/view.html", context)
+
+def productlistAjax(request):
+    products = Product.objects.filter(status=0).values_list('name', flat=True)
+    productList = list(products)
+
+    return JsonResponse(productList, safe=False)
+
+def searchproduct(request):
+    if request.method == 'POST':
+        searchedterm = request.POST.get('productsearch')
+        if searchedterm == "":
+            return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            product = Product.objects.filter(name__contains=searchedterm).first()
+
+            if product:
+                return redirect('collections/'+product.category.slug+'/'+product.slug)
+            else:
+                messages.info(request, "Ничего не найдено")
+                return redirect(request.META.get('HTTP_REFERER'))
+
+    return redirect(request.META.get('HTTP_REFERER'))

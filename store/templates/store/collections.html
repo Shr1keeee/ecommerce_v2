@@ -11,14 +11,14 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-12">
             <h1 class="text-center">Часы наручные</h1>
             <div class="row">
             {% for item in category %}
-                <div class="col-lg-3">
+                <div class="col-sm-1 col-md-6 col-lg-4 col-xl-4 my-3">
                     <div class="card text-center">
                         <a href="{% url 'collectionsview' item.slug %}">
-                            <div class="card-body ">
+                            <div class="card-body">
                                 <div class="category-image">
                                     <img style="height: 18rem; width: 18rem;" src="{{ item.image.url }}" alt="Category image">
                                 </div>

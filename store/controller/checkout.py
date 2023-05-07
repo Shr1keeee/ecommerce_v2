@@ -86,3 +86,5 @@ def placeorder(request):
         messages.success(request, "Заказ успешно оформлен")
 
     return redirect('/')
+
+    

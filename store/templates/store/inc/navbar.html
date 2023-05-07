@@ -1,9 +1,21 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand" href="{% url 'home' %}">BestTime</a>
+
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
+      <div class="search-bar">
+        <form action="{% url 'searchproduct' %}" method="POST">
+          {% csrf_token %}
+          <div class="input-group">
+            <input type="search" required class="form-control" name="productsearch" id="searchproducts" placeholder="Поиск товара">
+            <button class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></button>
+          </div>
+        </form>
+      </div>
+
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -25,7 +37,6 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="{% url 'myorders' %}">Мои заказы</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="{% url 'logoutpage' %}">Выйти</a></li>
             </ul>
@@ -39,10 +50,6 @@
           </li>
           {% endif %}
         </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
       </div>
     </div>
 </nav>
