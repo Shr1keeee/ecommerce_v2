@@ -1,9 +1,8 @@
 # DJANGO, NGINX, POSTGRESQL, GUNICORN on Ubuntu 20.04
 
-### Структура:
-![struct](https://user-images.githubusercontent.com/107879305/236841909-78ed3398-fff1-49bb-a28a-0ca2359ee13b.png)
+### Архитектура :
+![struct](https://user-images.githubusercontent.com/107879305/236865724-7e440a93-1122-4fa9-8926-39f37deca9a9.png)
 
-### Результат:
 ![test (1)-min](https://user-images.githubusercontent.com/107879305/236841515-dd734896-0f03-4c95-b26d-e1219eb4af63.gif)
 
 1. Клонирование git репозитория.
