@@ -51,7 +51,6 @@
  
  - Создание суперпользователя:
     $ python manage.py createsuperuser
-
 ```
 6. Запуск сервера.
 ```
