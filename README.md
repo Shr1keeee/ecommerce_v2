@@ -61,6 +61,5 @@
 ### Структура:
 ![struct](https://user-images.githubusercontent.com/107879305/236841909-78ed3398-fff1-49bb-a28a-0ca2359ee13b.png)
 
-### Демонстрация:
 ![test (1)-min](https://user-images.githubusercontent.com/107879305/236841515-dd734896-0f03-4c95-b26d-e1219eb4af63.gif)
 
