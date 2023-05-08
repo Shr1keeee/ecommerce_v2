@@ -14,7 +14,7 @@
 ```
 - Установка:
     $ sudo apt update
-    $ sudo apt install python3-pip python3-dev libpq-dev postgresql postgresql-contrib
+    $ sudo apt install python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx curl
     
 - Создание базы данных и пользователя:
     Подключение к psql:
@@ -54,10 +54,16 @@
 ```
 6. Запуск сервера.
 ```
-    $ python manage.py runserver
+    Создать исключение для порта 8000 с помощью следующей команды:
+        $sudo ufw allow 8000
+        
+    Запуск сервера:
+        $ python manage.py runserver
     
     В адресной строке ввести: 127.0.0.1:8000
 ```
+
+
 ### Структура:
 ![struct](https://user-images.githubusercontent.com/107879305/236841909-78ed3398-fff1-49bb-a28a-0ca2359ee13b.png)
 
