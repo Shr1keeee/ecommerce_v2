@@ -1,5 +1,11 @@
 # DJANGO, NGINX, POSTGRESQL, GUNICORN on Ubuntu 20.04
 
+### Структура:
+![struct](https://user-images.githubusercontent.com/107879305/236841909-78ed3398-fff1-49bb-a28a-0ca2359ee13b.png)
+
+### Результат:
+![test (1)-min](https://user-images.githubusercontent.com/107879305/236841515-dd734896-0f03-4c95-b26d-e1219eb4af63.gif)
+
 1. Клонирование git репозитория.
 ```
 - Создаем директорию, где будет располагаться наше приложение: 
@@ -54,18 +60,109 @@
 ```
 6. Запуск сервера.
 ```
-    Создать исключение для порта 8000 с помощью следующей команды:
-        $sudo ufw allow 8000
+-Создать исключение для порта 8000 с помощью следующей команды:
+    $sudo ufw allow 8000
         
-    Запуск сервера:
-        $ python manage.py runserver
+-Запуск сервера:
+    $ python manage.py runserver
     
-    В адресной строке ввести: 127.0.0.1:8000
+- В адресной строке ввести: 127.0.0.1:8000
 ```
 
+## Настройка GUNICORN
 
-### Структура:
-![struct](https://user-images.githubusercontent.com/107879305/236841909-78ed3398-fff1-49bb-a28a-0ca2359ee13b.png)
+1. Создание файлов сокета и служебных файлов systemd для Gunicorn
+```
+- Тестирование способности Gunicorn обслуживать проект:
+    $ gunicorn --bind 127.0.0.1:8000 ecommerce.wsgi
+    
+- Создание файла сокета systemd для Gunicorn:
+    $ sudo nano /etc/systemd/system/gunicorn.socket
+    
+    Заполнить файл /etc/systemd/system/gunicorn.socket:
+    [Unit]
+    Description=gunicorn socket
 
-![test (1)-min](https://user-images.githubusercontent.com/107879305/236841515-dd734896-0f03-4c95-b26d-e1219eb4af63.gif)
+    [Socket]
+    ListenStream=/run/gunicorn.sock
+
+    [Install]
+    WantedBy=sockets.target
+
+- Cоздайте служебного файла systemd для Gunicorn:
+    $ sudo nano /etc/systemd/system/gunicorn.service
+    
+    Заполнить файл /etc/systemd/system/gunicorn.service:
+    [Unit]
+    Description=gunicorn daemon
+    Requires=gunicorn.socket
+    After=network.target
+
+    [Service]
+    User=shrikeeee
+    Group=www-data
+    WorkingDirectory=/home/shrikeeee/projects/ecommerce #/home/user/projectdir/app
+    ExecStart=/home/shrikeeee/projects/store_env/bin/gunicorn \ #/home/user/projectdir/app/venv
+              --access-logfile - \
+              --workers 3 \
+              --bind unix:/run/gunicorn.sock \
+              ecommerce.wsgi:application #/home/user/projectdir/app/appname.wsgi
+
+    [Install]
+    WantedBy=multi-user.target
+
+- Запустите и активируйте сокет Gunicorn:
+    $ sudo systemctl start gunicorn.socket
+    $ sudo systemctl enable gunicorn.socket
+```
+2. Проверка файла сокета Gunicorn
+```
+- Проверка состояния процесса:
+    $ sudo systemctl status gunicorn.socket
+    
+- Проверка наличие файла gunicorn.sock в /run:
+    $ file /run/gunicorn.sock
+
+- Проверка жруналов сокета Gunicorn:
+    $ sudo journalctl -u gunicorn.socket
+    
+- Перезагрузка демона и процесса Gunicorn:
+    $ sudo systemctl daemon-reload
+    $ sudo systemctl restart gunicorn
+```
+## Настройка Nginx как прокси для Gunicorn
+
+1. Создание нового серверного блока в каталоге Nginx
+```
+- Открываем новый блок в sites-available:
+    $ sudo nano /etc/nginx/sites-available/ecommerce
+    
+- Заполнить и сохранить файл /etc/nginx/sites-available/ecommerce:
+    server {
+    listen 80;
+    server_name 127.0.0.1;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /home/shrikeeee/projects/ecommerce; #/home/user/projectdir/app
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.sock;
+    }
+    }
+
+- Активируем файл, привязав его к каталогу sites-enabled:
+  $ sudo ln -s /etc/nginx/sites-available/myproject /etc/nginx/sites-enabled
+
+- Тестирование конфигурации NGINX:
+    $ sudo nginx -t
+
+- Если ошибок нет, перезапускаем Nginx:
+    $ sudo systemctl restart nginx
+
+- Открываем 80 порт для приема обычного трафика:
+    $ sudo ufw allow 'Nginx Full'
+```
 
