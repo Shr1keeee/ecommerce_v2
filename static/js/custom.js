@@ -58,9 +58,6 @@ $(document).ready(function () {
                 'product_qty': product_qty,
                 csrfmiddlewaretoken: token
             },
-            success: function(data){
-                location.reload();
-            }
         });
     });
 

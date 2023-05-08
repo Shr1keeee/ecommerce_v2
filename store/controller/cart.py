@@ -15,7 +15,6 @@ def addtocart(request):
                 if(Cart.objects.filter(user=request.user, product_id=prod_id)):
                     return JsonResponse({'status': "Товар уже в корзине"})
                 else:
-                    
                     Cart.objects.create(user=request.user, product_id=prod_id, product_qty=1)
                     return JsonResponse({'status': "Товар добавлен в корзину"})
             else:
